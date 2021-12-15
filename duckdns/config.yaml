@@ -1,7 +1,7 @@
 version: 1.14.0
 slug: duckdns
 name: Duck DNS
-description: Free Dynamic DNS (DynDNS or DDNS) service with Let's Encrypt support
+description: CUSTOM Free Dynamic DNS (DynDNS or DDNS) service with Let's Encrypt support
 url: https://github.com/bluetrance/hassio-addons/tree/master/duckdns
 arch:
   - armhf
