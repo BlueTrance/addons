@@ -2,28 +2,25 @@
 # ==============================================================================
 # Setup persistent user settings
 # ==============================================================================
-readonly DIRECTORIES=(addons backup config share ssl)
+DIRECTORIES=(addons backup config share ssl)
 
 # Persist shell history by redirecting .bash_history to /data
-if ! bashio::fs.file_exists /data/.bash_profile; then
-    touch /data/.bash_history
-    chmod 600 /data/.bash_history
-fi
+touch /data/.bash_history
+chmod 600 /data/.bash_history
+ln -s -f /data/.bash_history /root/.bash_history
 
 # Make Home Assistant TOKEN available on the CLI
-mkdir -p /etc/profile.d
-bashio::var.json \
-    supervisor_token "${SUPERVISOR_TOKEN}" \
-    | tempio \
-        -template /usr/share/tempio/homeassistant.profile \
-        -out /etc/profile.d/homeassistant.sh
+echo "export SUPERVISOR_TOKEN=${SUPERVISOR_TOKEN}" >> /etc/profile.d/homeassistant.sh
 
-
-# Persist shell profile by redirecting .bash_profile to /data
-if ! bashio::fs.file_exists /data/.bash_profile; then
-    touch /data/.bash_profile
-    chmod 600 /data/.bash_profile
+# Remove old HASSIO_TOKEN from bash profile (if exists)
+if bashio::fs.file_exists /data/.bash_profile; then
+  sed -i "/export HASSIO_TOKEN=.*/d" /data/.bash_profile
 fi
+
+# Persist .bash_profile by redirecting .bash_profile to /data
+touch /data/.bash_profile
+chmod 600 /data/.bash_profile
+ln -s -f /data/.bash_profile /root/.bash_profile
 
 # Links some common directories to the user's home folder for convenience
 for dir in "${DIRECTORIES[@]}"; do
@@ -40,3 +37,4 @@ if ! bashio::fs.directory_exists /data/.ssh; then
         || bashio::exit.nok \
             'Failed setting permissions on persistent .ssh folder'
 fi
+ln -s /data/.ssh /root/.ssh

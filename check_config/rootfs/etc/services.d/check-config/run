@@ -4,18 +4,14 @@
 # ==============================================================================
 VERSION=$(bashio::config 'version')
 
-CMD_OPTIONS=("--disable-pip-version-check" "--find-links" "${WHEELS_LINKS}")
+# Create udev devices
+bashio::log.info "Setup udev devices"
+bashio::hardware.trigger
 
 # Generate install string
-if [[ "${VERSION}" =~ latest|stable ]]; then
-    CMD_OPTIONS+=("homeassistant")
-elif [ "${VERSION}" == "beta" ]; then
-    CMD_OPTIONS+=("--pre")
-    CMD_OPTIONS+=("homeassistant")
-elif [ "${VERSION}" == "dev" ]; then
-    CMD_OPTIONS+=("git+git://github.com/home-assistant/core.git@dev")
-else
-    CMD_OPTIONS+=("homeassistant==${VERSION}")
+CMD="homeassistant"
+if [ "${VERSION}" != "latest" ]; then
+    CMD="homeassistant==${VERSION}"
 fi
 
 bashio::log.info "Don't worry, this temporary installation is not overwriting your current one."
@@ -23,7 +19,7 @@ bashio::log.info "Installing Home Assistant: ${VERSION}..."
 bashio::log.info "Please be patient, this might take a few minutes..."
 
 # Install Home Assistant with the requested version
-if ! PIP_OUTPUT=$(pip3 install "${CMD_OPTIONS[@]}" 2>&1); then
+if ! PIP_OUTPUT="$(pip3 install --disable-pip-version-check --find-links "${WHEELS_LINKS}" "${CMD}")"; then
     bashio::log.error "An error occurred while installing Home Assistant:"
     bashio::log "${PIP_OUTPUT}"
     bashio::exit.nok

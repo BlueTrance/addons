@@ -2,27 +2,24 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # setup base
-ARG \
-    CERTBOT_VERSION \
-    CERTBOT_DNS_DIRECTADMIN_VERSION \
-    CERTBOT_NETCUP_VERSION \
-    CERTBOT_NJALLA_VERSION \
-    CERTBOT_GANDI_VERSION \
-    CERTBOT_DNS_TRANSIP_VERSION
+ARG CERTBOT_VERSION
+ARG CERTBOT_DNS_DIRECTADMIN_VERSION
+ARG CERTBOT_NETCUP_VERSION
+ARG CERTBOT_NJALLA_VERSION
+ARG CERTBOT_GANDI_VERSION
+ARG CERTBOT_DNS_TRANSIP_VERSION
 
-RUN \
-    set -x \
-    && apk add --no-cache --update \
+RUN apk add --no-cache --update \
         libffi \
         musl \
         openssl \
     && apk add --no-cache --virtual .build-dependencies \
-        build-base \
+        g++ \
         libffi-dev \
         musl-dev \
         openssl-dev \
-        cargo \
-    && pip3 install --no-cache-dir \
+    && pip3 install --no-cache-dir --find-links \
+        "https://wheels.home-assistant.io/alpine-$(cut -d '.' -f 1-2 < /etc/alpine-release)/${BUILD_ARCH}/" \
         certbot==${CERTBOT_VERSION} \
         certbot-dns-cloudflare==${CERTBOT_VERSION} \
         certbot-dns-cloudxns==${CERTBOT_VERSION} \

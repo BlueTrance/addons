@@ -4,10 +4,7 @@ FROM $BUILD_FROM
 ENV LANG C.UTF-8
 
 # Install Telldus library for TellStick (using same approach as in hassio docker installation)
-ARG TELLDUS_COMMIT
-RUN \
-    set -x \
-    && apk add --no-cache \
+RUN apk add --no-cache \
         confuse \
         libftdi1 \
         libstdc++ \
@@ -24,9 +21,8 @@ RUN \
     && ln -s /usr/include/libftdi1/ftdi.h /usr/include/ftdi.h \
     && mkdir -p /usr/src \
     && cd /usr/src \
-    && git clone https://github.com/telldus/telldus \
+    && git clone -b master --depth 1 https://github.com/telldus/telldus \
     && cd telldus/telldus-core \
-    && git reset --hard ${TELLDUS_COMMIT} \
     && sed -i \
         "/\<sys\/socket.h\>/a \#include \<sys\/select.h\>" \
         common/Socket_unix.cpp \

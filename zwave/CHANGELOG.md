@@ -1,28 +1,10 @@
 # Changelog
 
-## 0.9.1
+## 0.5.2
 
-- Update hardware configuration for Supervisor 2021.02.5
-
-## 0.9.0
-
-- Update OpenZWave to ee90c89
-- Cleanup permissions
-
-## 0.8.0
-
-- Update OpenZWave to 66619ed
-- Update ozw-admin to f68b43e
-
-## 0.7.1
-
-- Fix timezone issue on Alpine
-
-## 0.7.0
-
-- Fix vnc / ozwadmin
-- Update Openzwave to 1c7b620
-- Update qt-openzwave to 7ebd43e2
+- Rollback the docker image to 0.5.2.
+- This is a temporary fix to solve problems with 0.5.3 - 0.6.0.
+- Remove this changelog item when the next version is released.
 
 ## 0.6.0
 
@@ -109,4 +91,4 @@
 
 ## 0.1.0
 
-- Initial release
+- Inital release

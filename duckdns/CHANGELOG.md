@@ -1,19 +1,5 @@
 # Changelog
 
-## 1.14.0
-
-- Add option to specify algorithm used for SSL certificates
-
-## 1.13.0
-
-- Update base to 3.14
-- Use images from ghcr
-- Update dehydrated to 0.7.0
-
-## 1.12.5
-
-- Fix bug causing DuckDNS to return KO, when aliases were configured
-
 ## 1.12.4
 
 - Fix bug where IPv6 got the value of IPv4

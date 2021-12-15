@@ -24,7 +24,6 @@ Add-on configuration:
 ```yaml
 dirsfirst: false
 enforce_basepath: false
-git: true
 ignore_pattern:
   - __pycache__
 ssh_keys: []
@@ -39,10 +38,6 @@ Set it to `true` to list directories first, `false` otherwise.
 ### Option: `enforce_basepath` (required)
 
 If set to `true`, access is limited to files within the `/config` directory.
-
-### Option: `git` (required)
-
-If set to `true`, add-on will initialize git for directories which support it.
 
 ### Option: `ignore_pattern` (required)
 
