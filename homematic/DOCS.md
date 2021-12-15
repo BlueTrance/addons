@@ -49,6 +49,8 @@ List of RF devices.
 
 Device type for RFD service. Check your device manual.
 
+- HM-MOD-RPI-PCB: `CCU2`
+
 #### Option: `rf.device` (required)
 
 Device on the host.
@@ -85,6 +87,8 @@ List of HMIP devices.
 
 Device type for HMIP service. Check your device manual.
 
+- HmIP-RFUSB: `HMIP_CCU2`
+
 #### Option: `hmip.device` (required)
 
 Device on the host.
@@ -116,13 +120,14 @@ homematic:
       path: /groups
 ```
 
-## Raspberry Pi3
+## Raspberry Pi3/4
 
-If you use the HM-MOD-RPI-PCB on a Raspberry Pi 3, you need to add
+If you use the HM-MOD-RPI-PCB on a Raspberry Pi 3 or 4, you need to add
 the following to the `config.txt` file on the boot partition:
 
 ```text
-dtoverlay=pi3-miniuart-bt
+enable_uart=1
+dtoverlay=miniuart-bt
 ```
 
 ## HmIP-RFUSB

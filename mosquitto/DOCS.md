@@ -16,8 +16,11 @@ The add-on has a couple of options available. To get the add-on running:
 2. Have some patience and wait a couple of minutes.
 3. Check the add-on log output to see the result.
 
-Create a new user for MQTT via the **Configuration** -> **Users (manage users)**.
-Note: This name cannot be `homeassistant` or `addon`, those are reserved usernames.
+Create a new user for MQTT via your Home Assistant's frontend **Configuration** -> **Users (manage users)** , (i.e. not on Mosquitto's **Configuration** tab).
+Notes:
+
+1. This name cannot be `homeassistant` or `addon`, those are reserved usernames.
+2. If you do not see the option to create a new user, ensure that **Advanced Mode** is enabled in your Home Assistant profile.
 
 To use the Mosquitto as a broker, go to the integration page and install the configuration with one click:
 
@@ -33,7 +36,6 @@ Add-on configuration:
 
 ```yaml
 logins: []
-anonymous: false
 customize:
   active: false
   folder: mosquitto
@@ -52,12 +54,6 @@ logins:
     password: passwd
 ```
 
-### Option: `anonymous`
-
-Allow anonymous connections. If logins are set, the anonymous user can only read data.
-
-Default value: `false`
-
 #### Option: `customize.active`
 
 If set to `true` additional configuration files will be read, see the next option.
@@ -70,15 +66,15 @@ The folder to read the additional configuration files (`*.conf`) from.
 
 ### Option: `cafile` (optional)
 
-A file containing a root certificate.
+A file containing a root certificate. Place this file in the Home Assistant `ssl` folder.
 
 ### Option: `certfile`
 
-A file containing a certificate, including its chain.
+A file containing a certificate, including its chain. Place this file in the Home Assistant `ssl` folder.
 
 ### Option: `keyfile`
 
-A file containing the private key.
+A file containing the private key. Place this file in the Home Assistant `ssl` folder.
 
 ### Option: `require_certificate`
 
@@ -88,7 +84,7 @@ If set to `true` encryption will be enabled using the cert- and keyfile options.
 
 This add-on is attached to the Home Assistant user system, so MQTT clients can make use of these credentials. Local users may also still be set independently within the configuration options for the add-on. For the internal Home Assistant ecosystem, we register `homeassistant` and `addons`, so these may not be used as user names.
 
-## Disable listening on insecure (1883) ports
+## Disable listening on insecure (1883/1884) ports
 
 Remove the ports from the add-on page network card (set them as blank) to disable them.
 
@@ -123,17 +119,8 @@ Add the following configuration to enable **unrestricted** access to all topics.
     user [YOUR_MQTT_USER]
     topic readwrite #
     ```
-    For anonymous mode ( `"anonymous": true` ), you have to remove the `user [YOUR_MQTT_USER]` line like so:
-
-    ```text
-    topic readwrite #
-    ```
 
 The `/share` folder can be accessed via SMB, or on the host filesystem under `/usr/share/hassio/share`.
-
-## Known issues and limitations
-
-- Since version 4.1 of the add-on, an explicit ACL definition is now required if you plan to use legacy logins and `"anonymous": true` [see these instructions](#access-control-lists-acls).
 
 ## Support
 
